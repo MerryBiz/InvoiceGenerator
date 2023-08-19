@@ -10,7 +10,7 @@ function saveSheetAsPDF(pdfFileName,newSheetName) {
 }
 
 function createPDF(folderID, ssid, sheetid, filename) {
-  var saveFolder = DriveApp.getFolderById(folderID);　// 保存するフォルダを取得
+  var saveFolder = DriveApp.getFolderById(folderID);// 保存するフォルダを取得
   var rootFolder = DriveApp.getRootFolder(); // マイドライブ直下を取得
   var url = "https://docs.google.com/spreadsheets/d/SSID/export?".replace("SSID", ssid);
   // PDF作成のオプションを指定
@@ -56,4 +56,7 @@ function createPDF(folderID, ssid, sheetid, filename) {
   //　PDFを指定したフォルダに保存
   saveFolder.createFile(blob);
   rootFolder.createFile(blob);
+
+  //暫定的に下書き保存ロジックに追加
+  createDraft(filename,blob);
 }
