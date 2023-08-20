@@ -113,6 +113,8 @@ const invoiceBodyRng = "B6:B9"; //請求書の内容の範囲
   var pdfFileName = staffID + "_" + staffName + "_" + invoiceSheetName;
   saveAndDraftSheetAsPDF(pdfFileName, invoiceSheetName);
 
+  addOrUpdateRecord(staffID, attendanceSheetName, staffName, invoiceSheet.getRange("B11").getValue(), spreadsheet.getUrl());
+
   // invoiceSheetを保護する
   const protection = invoiceSheet.protect();
   protection.removeEditors(protection.getEditors());
