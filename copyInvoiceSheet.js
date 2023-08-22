@@ -109,17 +109,5 @@ const invoiceBodyRng = "B6:B9"; //請求書の内容の範囲
   invoiceSheet.getRange("H29").setValue(0);
   Utilities.sleep(1000);
   }
-
-  var pdfFileName = staffID + "_" + staffName + "_" + invoiceSheetName;
-  saveAndDraftSheetAsPDF(pdfFileName, invoiceSheetName);
-
-  addOrUpdateRecord(staffID, attendanceSheetName, staffName, invoiceSheet.getRange("B11").getValue(), spreadsheet.getUrl());
-
-  // invoiceSheetを保護する
-  const protection = invoiceSheet.protect();
-  protection.removeEditors(protection.getEditors());
-  protection.addEditor(spreadsheet.getOwner());
-  protection.setDescription('発行済みのため保護されたシート');
-
-  // 発行済みのリストに登録する
 }
+

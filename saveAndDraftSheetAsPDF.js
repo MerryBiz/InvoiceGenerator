@@ -8,7 +8,8 @@ function saveAndDraftSheetAsPDF(pdfFileName, newSheetName) {
 
   savePDF(pdfBlob); // PDFを指定のフォルダおよびマイドライブのルートに保存
 
-  createDraft(pdfFileName, pdfBlob);
+  //Drive保存を採用するためコメントアウト
+  //createDraft(pdfFileName, pdfBlob); 
 }
 
 function createPDF(ssid, sheetid, filename) {
