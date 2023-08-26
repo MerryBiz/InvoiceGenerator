@@ -119,7 +119,7 @@ function copyInvoiceSheet() {
   }
 }
 
-// コピー時に過去に発行済みのシートがあったら削除する
+// 請求書シート作成時に過去に発行済みのシートがあったら削除する
 function deleteProtectedInvoiceSheets() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheets = ss.getSheets();
