@@ -1,4 +1,5 @@
 function copyInvoiceSheet() {
+  deleteProtectedInvoiceSheets();
 
   const attendanceSheet = SpreadsheetApp.getActiveSheet();  // 今月の勤務実績表シート
   const spreadsheet = attendanceSheet.getParent();
@@ -117,4 +118,30 @@ function copyInvoiceSheet() {
     Utilities.sleep(1000);
   }
 }
+
+// コピー時に過去に発行済みのシートがあったら削除する
+function deleteProtectedInvoiceSheets() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = ss.getSheets();
+  for (const sheet of sheets) {
+    const sheetName = sheet.getName();
+    if (sheetName.includes('_請求書')) {
+      const protections = sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET);
+      for (const protection of protections) {
+        const description = protection.getDescription();
+        if (description === '発行済みのため保護されたシート') {
+          if (protection.canEdit()) {
+            protection.remove();
+            console.log(`シート${sheetName}は保護されており提出済みのためシートを削除します`)
+            ss.deleteSheet(sheet);
+          } else {
+            console.log(`シート${sheetName}は保護されており、削除できません。`);
+          }
+          break;
+        }
+      }
+    }
+  }
+}
+
 
