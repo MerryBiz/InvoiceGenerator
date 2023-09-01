@@ -118,6 +118,13 @@ function copyInvoiceSheet() {
     invoiceSheet.getRange("H29").setValue(0);
     Utilities.sleep(1000);
   }
+
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert('請求書を作成しました', '確定した月の請求書シートに移動しますか？', ui.ButtonSet.OK_CANCEL);
+
+  if (response === ui.Button.OK) {
+    spreadsheet.setActiveSheet(invoiceSheet);
+  }
 }
 
 // 請求書シート作成時に過去に発行済みのシートがあったら削除する
