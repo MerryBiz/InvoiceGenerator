@@ -5,7 +5,8 @@ function copyInvoiceSheet() {
   const spreadsheet = attendanceSheet.getParent();
   const invoiceInfoSheet = spreadsheet.getSheetByName("各種情報");
   const basicInfoSheet = spreadsheet.getSheetByName("基本情報");
-  const invoiceTemplateSheet = spreadsheet.getSheetByName("請求書テンプレート");
+  const invoiceTemplateSpreadsheet = SpreadsheetApp.openById("1VEqArPvib0sIHaDDmVFu1wsnMBp5nFmQwXjx_kK9TCI");
+  const invoiceTemplateSheet = invoiceTemplateSpreadsheet.getSheetByName("請求書テンプレート");
   const attendanceSheetName = attendanceSheet.getName();  // 今月の勤務実績表のシート名
   const invoiceSheetName = attendanceSheetName + "_請求書"; // 今月の請求書シートのシート名
 
