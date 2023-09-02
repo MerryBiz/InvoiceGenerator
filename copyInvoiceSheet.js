@@ -1,7 +1,22 @@
 function copyInvoiceSheet() {
+  const attendanceSheet = SpreadsheetApp.getActiveSheet();  // 今月の勤務実績表シート
+
+  const protections = attendanceSheet.getProtections(SpreadsheetApp.ProtectionType.SHEET);
+  let isProtected = false;
+  for (const protection of protections) {
+    if (protection.getDescription() === '勤務実績表確定による保護') {
+      isProtected = true;
+      break;
+    }
+  }
+
+  if (!isProtected) {
+    console.error("勤務実績が確定していないので請求書の作成を中止");
+    return;
+  }
+
   deleteProtectedInvoiceSheets();
 
-  const attendanceSheet = SpreadsheetApp.getActiveSheet();  // 今月の勤務実績表シート
   const spreadsheet = attendanceSheet.getParent();
   const invoiceInfoSheet = spreadsheet.getSheetByName("各種情報");
   const basicInfoSheet = spreadsheet.getSheetByName("基本情報");
@@ -22,12 +37,6 @@ function copyInvoiceSheet() {
     SpreadsheetApp.getUi().alert('エラー', '既に該当月の請求書が作成されています', SpreadsheetApp.getUi().ButtonSet.OK);
     throw new Error("同名のシートがすでに存在しています。");
   }
-  var invoiceSheet = invoiceTemplateSheet.copyTo(spreadsheet);
-  invoiceSheet.setName(invoiceSheetName);
-
-  // 勤務実績表から情報をがさっと取ってくる
-  const data = attendanceSheet.getDataRange().getValues();
-  let startRow = 15;
 
   const accountName = invoiceInfoSheet.getRange("C5").getValue();
   const staffID = basicInfoSheet.getRange("A2").getValue();
@@ -44,6 +53,14 @@ function copyInvoiceSheet() {
     SpreadsheetApp.getUi().alert('エラー', '各種情報の必須項目に空欄があります。各種情報シートの更新を行ってください', SpreadsheetApp.getUi().ButtonSet.OK);
     throw new Error("各種情報シートの情報取得エラー");
   }
+
+  var invoiceSheet = invoiceTemplateSheet.copyTo(spreadsheet);
+  invoiceSheet.setName(invoiceSheetName);
+
+  // 勤務実績表から情報をがさっと取ってくる
+  const data = attendanceSheet.getDataRange().getValues();
+  let startRow = 15;
+
 
   var year = new Date().getFullYear();
   var month = new Date().getMonth() + 1;
