@@ -1,5 +1,6 @@
 /**
  * 各変数を定義しているファイル
+ * 2023.09.22 n.yasuda
  */
 //const spreadsheet = SpreadsheetApp.getActiveSheet();
 /**
