@@ -38,15 +38,15 @@ function copyInvoiceSheet() {
     throw new Error("同名のシートがすでに存在しています。");
   }
 
-  const accountName = invoiceInfoSheet.getRange("C5").getValue();
-  const staffID = basicInfoSheet.getRange("A2").getValue();
-  const accountDescription = invoiceInfoSheet.getRange("C1:C4").getValues().flat().join(" ");
-  const invoiceNo = invoiceInfoSheet.getRange("C11").getValue();
-  const companyName = invoiceInfoSheet.getRange("C10").getValue();
-  const staffName = basicInfoSheet.getRange("B2").getValue();
-  const zipCode = invoiceInfoSheet.getRange("C7").getValue();
-  const staffAddress1 = invoiceInfoSheet.getRange("C8").getValue();
-  const staffAddress2 = invoiceInfoSheet.getRange("C9").getValue();
+  const accountName = invoiceInfoSheet.getRange("C12").getValue();
+  const staffID = invoiceInfoSheet.getRange("C2").getValue();
+  const accountDescription = invoiceInfoSheet.getRange("C8:C11").getValues().flat().join(" ");
+  const invoiceNo = invoiceInfoSheet.getRange("C18").getValue();
+  const companyName = invoiceInfoSheet.getRange("C17").getValue();
+  const staffName = invoiceInfoSheet.getRange("C3").getValue();
+  const zipCode = invoiceInfoSheet.getRange("C14").getValue();
+  const staffAddress1 = invoiceInfoSheet.getRange("C15").getValue();
+  const staffAddress2 = invoiceInfoSheet.getRange("C16").getValue();
 
   //基本情報バリデーション
   if (!accountName || !staffID || !accountDescription || !companyName || !staffName || !zipCode || !staffAddress1 || !staffAddress2) {
@@ -103,20 +103,63 @@ function copyInvoiceSheet() {
       break;
     }
 
+    if (data[row][3] === "時間単価") {
+      // 時分を時間に変える
+      const timeSplit = Utilities.formatDate(data[row][6], "JST", "HH:mm");
+      console.log(data[row][6]);
+      const timeSplits = String(timeSplit).split(/:/,2);
+      console.log(timeSplits[0] + timeSplits[1]);
+      const vHour = Number(timeSplits[0]);
+      const vMinutes = Number(timeSplits[1] / 60);
+      const valueTime = vHour + vMinutes;
+      data[row][6] = [valueTime];
+    console.log(data[row][6]+ "." +valueTime);
+    } else if (data[row][3] === "件数") {
+    
+    } else if (data[row][3] === "月額固定") {
+    
+    data[row][7] = 1;
+    
+    }
+
     rowsToCopy.push(row);
+    console.log(data[row][4]);
   }
 
   for (let i = 0; i < rowsToCopy.length; i++) {
     const row = rowsToCopy[i];
-    const rowData = [data[row][2],
+    if (data[row][3] === "時間単価") {
+      const rowData = [data[row][2]+"("+data[row][3]+")",
       "",
       "",
-    data[row][3],
+      "",
     data[row][4],
     data[row][6],
+    ];
+    dataToSet.push(rowData);
+    console.log(rowData);
+    } else if (data[row][3] === "件数") {
+      const rowData = [data[row][2]+"("+data[row][3]+")",
+      "",
+      "",
+      "",
+    data[row][4],
     data[row][7],
     ];
     dataToSet.push(rowData);
+    console.log(rowData);
+    } else if (data[row][3] === "月額固定") {
+      const rowData = [data[row][2]+"("+data[row][3]+")",
+      "",
+      "",
+      "",
+    data[row][4],
+    data[row][7],
+    ];
+    dataToSet.push(rowData);
+    console.log(rowData);
+    }
+    
   }
 
   const numRowsToSet = dataToSet.length;
