@@ -1,13 +1,18 @@
 function saveAndDraftSheetAsPDF(pdfFileName, newSheetName) {
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert('請求書提出', '請求書を確定し提出しますか', ui.ButtonSet.OK_CANCEL);
+  if (response === ui.Button.CANCEL) {
+    return;
+  }
   var ss = SpreadsheetApp.getActiveSpreadsheet(); // 勤務実績表
   var ssid = ss.getId(); //勤務実績表のスプレッドシートID
   var sheetid = ss.getSheetByName(newSheetName).getSheetId(); // 請求書シートのシートIDを取得
   Logger.log(sheetid);
-
+  ss.toast('請求書提出','請求書提出処理中');
   var pdfBlob = createPDF(ssid, sheetid, pdfFileName); // PDF作成し、Blobを取得
 
   savePDF(pdfBlob); // PDFを指定のフォルダおよびマイドライブのルートに保存
-
+  ui.alert('請求書提出', '請求書の提出が完了しましたマイドライブ内に保存さていることをご確認ください',  ui.ButtonSet.OK);
   //Drive保存を採用するためコメントアウト
   //createDraft(pdfFileName, pdfBlob); 
 }
