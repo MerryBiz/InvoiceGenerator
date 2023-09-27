@@ -25,6 +25,7 @@ function createPDF(ssid, sheetid, filename) {
     pagenumbers: "false",
     gridlines: "false",
     fzr: "false",
+    range: "A1%3AI35",
     gid: sheetid
   };
 

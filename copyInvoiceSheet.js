@@ -111,7 +111,7 @@ function copyInvoiceSheet() {
       console.log(timeSplits[0] + timeSplits[1]);
       const vHour = Number(timeSplits[0]);
       const vMinutes = Number(timeSplits[1] / 60);
-      const valueTime = vHour + vMinutes;
+      const valueTime = Math.floor((vHour + vMinutes)*10) / 10;
       data[row][6] = [valueTime];
     console.log(data[row][6]+ "." +valueTime);
     } else if (data[row][3] === "件数") {
