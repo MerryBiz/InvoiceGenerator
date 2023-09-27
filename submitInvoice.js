@@ -4,8 +4,19 @@ function submitInvoice() {
   const invoiceSheetName = invoiceSheet.getName();
 
   const staffID = invoiceSheet.getRange("H9").getValue();
+  const accountNumber = invoiceSheet.getRange("H2").getValue();
   const staffName = invoiceSheet.getRange("H10").getValue();
+  const staffNameKana = invoiceSheet.getRange("B9").getValue();
   const invoiceNo = invoiceSheet.getRange("H11").getValue();
+  const billingDate = invoiceSheet.getRange("H3").getValue();
+  const address1 = invoiceSheet.getRange("H7").getValue();
+  const address2 = invoiceSheet.getRange("H8").getValue();
+  const subtotal = invoiceSheet.getRange("G28").getValue();
+  const taxRate = invoiceSheet.getRange("G29").getValue();
+  const tax = invoiceSheet.getRange("G30").getValue();
+  const description = invoiceSheet.getRange("B6").getValue();
+  const paymentDeadline = invoiceSheet.getRange("B7").getValue();
+  const bankInfo = invoiceSheet.getRange("B8").getValue();
 
   if (!invoiceNo) {
     const ui = SpreadsheetApp.getUi();
@@ -25,7 +36,8 @@ function submitInvoice() {
   saveAndDraftSheetAsPDF(pdfFileName, invoiceSheetName);
 
   const attendanceSheetName = invoiceSheetName.replace("_請求書", "");
-  addOrUpdateRecord(staffID, attendanceSheetName, staffName, invoiceSheet.getRange("B11").getValue(), spreadsheet.getUrl());
+  console.log(accountNumber, staffID, attendanceSheetName, staffName, staffNameKana, invoiceSheet.getRange("B11").getValue(), spreadsheet.getUrl(), billingDate, invoiceNo, address1, address2, subtotal, taxRate, tax, description, paymentDeadline, bankInfo)
+  addOrUpdateRecord(accountNumber, staffID, attendanceSheetName, staffName, staffNameKana, invoiceSheet.getRange("B11").getValue(), spreadsheet.getUrl(), billingDate, invoiceNo, address1, address2, subtotal, taxRate, tax, description, paymentDeadline, bankInfo);
 
   // invoiceSheetを保護する
   const protection = invoiceSheet.protect();

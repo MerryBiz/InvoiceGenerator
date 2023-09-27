@@ -12,7 +12,7 @@ function saveAndDraftSheetAsPDF(pdfFileName, newSheetName) {
   var pdfBlob = createPDF(ssid, sheetid, pdfFileName); // PDF作成し、Blobを取得
 
   savePDF(pdfBlob); // PDFを指定のフォルダおよびマイドライブのルートに保存
-  ui.alert('請求書提出', '請求書の提出が完了しましたマイドライブ内に保存さていることをご確認ください',  ui.ButtonSet.OK);
+  //ui.alert('請求書提出', '請求書の提出が完了しましたマイドライブ内に保存さていることをご確認ください',  ui.ButtonSet.OK);
   //Drive保存を採用するためコメントアウト
   //createDraft(pdfFileName, pdfBlob); 
 }

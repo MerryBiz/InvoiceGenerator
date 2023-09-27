@@ -19,7 +19,6 @@ function copyInvoiceSheet() {
 
   const spreadsheet = attendanceSheet.getParent();
   const invoiceInfoSheet = spreadsheet.getSheetByName("各種情報");
-  const basicInfoSheet = spreadsheet.getSheetByName("基本情報");
   const invoiceTemplateSpreadsheet = SpreadsheetApp.openById("1VEqArPvib0sIHaDDmVFu1wsnMBp5nFmQwXjx_kK9TCI");
   const invoiceTemplateSheet = invoiceTemplateSpreadsheet.getSheetByName("請求書テンプレート");
   const attendanceSheetName = attendanceSheet.getName();  // 今月の勤務実績表のシート名
@@ -54,6 +53,13 @@ function copyInvoiceSheet() {
     throw new Error("各種情報シートの情報取得エラー");
   }
 
+  //海外スタッフ処理
+  if (invoiceNo == "対象外") {
+    return;
+  } else if (invoiceNo == "登録しない") {
+    invoiceNo = "";
+  }
+
   var invoiceSheet = invoiceTemplateSheet.copyTo(spreadsheet);
   invoiceSheet.setName(invoiceSheetName);
 
@@ -72,6 +78,9 @@ function copyInvoiceSheet() {
 
   var invoiceDay = new Date(year, month - 1, 0);
 
+  var replaceAttedanceSheetName = attendanceSheetName.replace("年", "").replace("月", "");
+  var accountNumber = staffID + "-" + replaceAttedanceSheetName;
+
   const valuesToSetAccountInfo = [[attendanceSheetName + "リモートスタッフ稼働分"],
   [lastDay],
   [accountDescription],
@@ -83,7 +92,8 @@ function copyInvoiceSheet() {
   const valuesToSetCompanyInfo = [[companyName]];
   invoiceSheet.getRange("H7").setValues(valuesToSetCompanyInfo);
 
-  const valuesToSetInvoiceInfo = [[invoiceDay],
+  const valuesToSetInvoiceInfo = [[accountNumber],
+  [invoiceDay],
   [""],
   [companyName],
   [zipCode],
@@ -92,7 +102,7 @@ function copyInvoiceSheet() {
   [staffID],
   [staffName],
   [invoiceNo]];
-  invoiceSheet.getRange("H3:H11").setValues(valuesToSetInvoiceInfo);
+  invoiceSheet.getRange("H2:H11").setValues(valuesToSetInvoiceInfo);
 
 
   const dataToSet = [];
