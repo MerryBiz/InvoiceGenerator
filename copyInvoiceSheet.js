@@ -115,8 +115,9 @@ function copyInvoiceSheet() {
 
     if (data[row][3] === "時間単価") {
       // 時分を時間に変える
+      console.log("変換前" + data[row][6]);
       const timeSplit = Utilities.formatDate(data[row][6], "JST", "HH:mm");
-      console.log(data[row][6]);
+      console.log("変換後" + data[row][6]);
       const timeSplits = String(timeSplit).split(/:/,2);
       console.log(timeSplits[0] + timeSplits[1]);
       const vHour = Number(timeSplits[0]);
