@@ -40,7 +40,7 @@ function copyInvoiceSheet() {
   const accountName = invoiceInfoSheet.getRange("C12").getValue();
   const staffID = invoiceInfoSheet.getRange("C2").getValue();
   const accountDescription = invoiceInfoSheet.getRange("C8:C11").getValues().flat().join(" ");
-  const invoiceNo = invoiceInfoSheet.getRange("C18").getValue();
+  let invoiceNo = invoiceInfoSheet.getRange("C18").getValue();
   const companyName = invoiceInfoSheet.getRange("C17").getValue();
   const staffName = invoiceInfoSheet.getRange("C3").getValue();
   const zipCode = invoiceInfoSheet.getRange("C14").getValue();
@@ -107,6 +107,8 @@ function copyInvoiceSheet() {
 
   const dataToSet = [];
   const rowsToCopy = [];
+  // 初期設定、基準日をミリ秒に変換
+  //const startDate = new Date("Sun Dec 30 00:00:00 GMT+09:00 1899").getTime();
 
   for (let row = 6; row < data.length; row++) {
     if (!data[row][2] && !data[row][3] && !data[row][4] && !data[row][6] && !data[row][7]) {
@@ -114,18 +116,17 @@ function copyInvoiceSheet() {
     }
 
     if (data[row][3] === "時間単価") {
-      // 時分を時間に変える
-      console.log("変換前" + data[row][6]);
-//      const timeSplit = Utilities.formatDate(data[row][6], "JST", "HH:mm");
+      // ミリ秒に変換
+//      const endDate = new Date(data[row][6]).getTime();
+//      console.log("データ" + endDate);
+//      const diff = Math.abs(endDate - startDate);
+//      Logger.log(diff);
+
+      // 計算する
+//      const workTimes = diff / 1000 / 60 / 60 ; // 時間の計算
+//      const dispTime = Math.floor(workTimes * 10) / 10;
       data[row][6] = 1;
-      console.log("変換後" + data[row][6]);
-//      const timeSplits = String(timeSplit).split(/:/,2);
-//      console.log(timeSplits[0] + timeSplits[1]);
-//      const vHour = Number(timeSplits[0]);
-//      const vMinutes = Number(timeSplits[1] / 60);
-//      const valueTime = Math.floor((vHour + vMinutes)*10) / 10;
-//      data[row][6] = [valueTime];
-//    console.log(data[row][6]+ "." +valueTime);
+//    console.log(workTimes);
     } else if (data[row][3] === "件数") {
     
     } else if (data[row][3] === "月額固定") {
@@ -145,7 +146,7 @@ function copyInvoiceSheet() {
       "",
       "",
       "",
-    data[row][4],
+    data[row][8],
     data[row][6],
     ];
     dataToSet.push(rowData);
