@@ -1,5 +1,7 @@
 function addOrUpdateRecord(accountNumber, staffId, sheetName, fullName, kanaName, amount, url,
   billingDate, invoiceNo, address1, address2, subtotal, taxRate, tax, description, paymentDeadline, bankInfo) {
+  
+  /** 以下いったんコメントアウト
   const sheet = SpreadsheetApp.openById("1gAFrlO0lbVfJWprw0-9JQFuKxrD9ayqfXFIMpx68kCA").getSheetByName("発行履歴");
   const dataRange = sheet.getDataRange().getDisplayValues();
 
@@ -24,6 +26,7 @@ function addOrUpdateRecord(accountNumber, staffId, sheetName, fullName, kanaName
     billingDate, invoiceNo, address1, address2, subtotal, taxRate, tax, description, paymentDeadline, bankInfo, timestamp);
   sheet.appendRow([accountNumber, staffId, sheetName, fullName, kanaName, amount, url,
     billingDate, invoiceNo, address1, address2, subtotal, taxRate, tax, description, paymentDeadline, bankInfo, timestamp]);
+     */
     const ui = SpreadsheetApp.getUi();
     ui.alert('請求書提出', '請求書の提出が完了しましたマイドライブ内に保存さていることをご確認ください',  ui.ButtonSet.OK);
 }
